@@ -17,15 +17,23 @@
 // imports
 
 import { Loader } from "@googlemaps/js-api-loader";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/firebase/config";
+import getUser from "@/composables/getUser";
 
+// import { data, error  } from "../composables/getUserData";
 import { onMounted, ref } from "vue";
+
 export default {
   setup() {
+    const { user } = getUser();
     const show = ref(true);
     const ok = ref("hagsdjgajsf");
     const recieved_location = ref("");
+    const recieved_location1 = ref([]);
 
     // -------------------------------------------
+
     onMounted(() => {
       // info Window
       // getting current user location coordinates
@@ -35,7 +43,13 @@ export default {
           lng: position.coords.longitude,
         };
         recieved_location.value = pos;
-        console.log(recieved_location.value.lat);
+        ////////Taking data from firebase
+        const docRef = doc(db, "user-data", user.value.uid);
+        getDoc(docRef).then((doc) => {
+          console.log(doc.data(), doc.id);
+          recieved_location1.value = doc.data();
+        });
+        console.log(recieved_location1, "hello");
         // loading map
         const loader = new Loader({
           apiKey: "AIzaSyABi4mIlqICDg1kdQgCflaTL_2aY-D8Vf0",

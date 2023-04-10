@@ -3,10 +3,10 @@ import { doc, getDoc } from "firebase/firestore";
 import { ref } from "vue";
 
 const error = ref(null);
-const getUserData = () => {
+const getUserData = (e) => {
   const data = async () => {
     error.value = "";
-    const docRef = doc(db, "Blog");
+    const docRef = doc(db, "user-data", e);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {

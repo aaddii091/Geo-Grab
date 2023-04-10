@@ -37,8 +37,8 @@ export default {
   setup() {
     const { user } = getUser();
     const { error, logout } = useLogout();
-    console.log(user);
     getUser();
+    console.log(user);
     const logOut = async () => {
       await logout();
       if (!error.value) {

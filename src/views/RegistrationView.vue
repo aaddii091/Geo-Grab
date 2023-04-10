@@ -67,8 +67,8 @@ export default {
 
     // -------------------------------------------
     // ref variable
+    // console.log(userID.value);
     const { register, error, uid } = useRegister();
-    const userID = ref(uid.value);
     const fname = ref("");
     const lname = ref("");
     const email = ref("");
@@ -93,23 +93,23 @@ export default {
       await register(displayName.value, password.value, email.value);
       if (!error.value) {
         console.log("signed up !");
-        console.log(userID.value);
-        handleSubmit();
+        await handleSubmit();
         // router.push({ name: "login" });
       }
     };
 
+    const userID = ref(uid.value);
     // adding location to user
     const handleSubmit = async () => {
       try {
-        console.log(uid);
         if (lat.value) {
+          console.log(uid.value);
           const set = {
             lat: lat.value,
             lng: lng.value,
-            userID: userID.value,
+            userID: uid.value,
           };
-          useCollection(await adding(set));
+          await adding(set);
           if (!error.value) {
             router.push({ name: "login" });
             console.log("hi");
@@ -121,7 +121,13 @@ export default {
         }
       } catch (err) {
         console.log(err.message, "From Input Data for Firestore");
+        lat.value = "";
+        lng.value = "";
+        userID.value = "";
       }
+      lat.value = "";
+      lng.value = "";
+      userID.value = "";
     };
 
     return { res, fname, lname, email, password, register, error };
