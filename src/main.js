@@ -1,5 +1,6 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
-
-createApp(App).use(router).mount('#app')
+import { createApp } from "vue";
+import App from "./App.vue";
+import router from "./router";
+import Vue3Geolocation from "vue3-geolocation";
+createApp(App).use(router).mount("#app");
+App.use(Vue3Geolocation);
