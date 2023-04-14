@@ -23,33 +23,29 @@ import getUser from "@/composables/getUser";
 
 // import { data, error  } from "../composables/getUserData";
 import { onMounted, ref } from "vue";
+import router from "@/router";
 
 export default {
   setup() {
     const { user } = getUser();
     const show = ref(true);
     const ok = ref("hagsdjgajsf");
-    const recieved_location = ref("");
+
     const recieved_location1 = ref([]);
 
     // -------------------------------------------
-
     onMounted(() => {
       // info Window
       // getting current user location coordinates
-      navigator.geolocation.getCurrentPosition((position) => {
-        const pos = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
-        recieved_location.value = pos;
+      navigator.geolocation.getCurrentPosition(async () => {
+        console.log(user.value.uid);
         ////////Taking data from firebase
         const docRef = doc(db, "user-data", user.value.uid);
-        getDoc(docRef).then((doc) => {
-          console.log(doc.data(), doc.id);
-          recieved_location1.value = doc.data();
-        });
-        console.log(recieved_location1, "hello");
+        const docResponse = await getDoc(docRef);
+
+        console.log(docResponse.data(), docResponse.id);
+        recieved_location1.value = docResponse.data();
+        console.log(recieved_location1.value.lat);
         // loading map
         const loader = new Loader({
           apiKey: "AIzaSyABi4mIlqICDg1kdQgCflaTL_2aY-D8Vf0",
@@ -63,8 +59,8 @@ export default {
 
           const map = new Map(document.getElementById("map"), {
             center: {
-              lat: recieved_location.value.lat,
-              lng: recieved_location.value.lng,
+              lat: recieved_location1.value.lat,
+              lng: recieved_location1.value.lng,
             },
             zoom: 14,
             mapTypeControl: true,
@@ -76,22 +72,26 @@ export default {
           //using marker which marks the user's current location
           let markerOptions = {
             position: new google.maps.LatLng(
-              recieved_location.value.lat,
-              recieved_location.value.lng
+              recieved_location1.value.lat,
+              recieved_location1.value.lng
             ),
             map: map,
+            title: "Click to enter chatroom",
           };
           const marker = new google.maps.Marker(markerOptions);
-
+          //Click event on marker
+          marker.addListener("click", () => {
+            router.push({ name: "chatroom" });
+          });
           // Geolocation
+          //Button For Asking Current location
+          // const locationButton = document.createElement("button");
 
-          const locationButton = document.createElement("button");
-
-          locationButton.textContent = " Current Location";
-          locationButton.classList.add("custom-map-control-button");
-          map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(
-            locationButton
-          );
+          // locationButton.textContent = " Current Location";
+          // locationButton.classList.add("custom-map-control-button");
+          // map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(
+          //   locationButton
+          // );
 
           return { map, marker };
         });

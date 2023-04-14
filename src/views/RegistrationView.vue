@@ -129,8 +129,11 @@ export default {
       lng.value = "";
       userID.value = "";
     };
-
-    return { res, fname, lname, email, password, register, error };
+//redirecting user to login 
+const redirect = ()=>{
+  router.push({name:"login"})
+}
+    return { res, fname, lname, email, password, register, error , redirect};
   },
 };
 </script>

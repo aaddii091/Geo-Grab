@@ -38,11 +38,13 @@ export default {
     const { user } = getUser();
     const { error, logout } = useLogout();
     getUser();
+    // localStorage.setItem({ name: user.displayName, userID: user.uid });
+
     console.log(user);
     const logOut = async () => {
       await logout();
       if (!error.value) {
-        console.log("Logged Out");
+        console.log("Loggded Out");
         router.push({ name: "login" });
       }
       console.log(error);
@@ -53,6 +55,12 @@ export default {
 </script>
 
 <style scoped>
+.fixed {
+  position: fixed;
+}
+.relative {
+  position: relative;
+}
 nav {
   width: 100%;
   position: fixed;

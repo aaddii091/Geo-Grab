@@ -53,6 +53,7 @@ export default {
       await login(email.value, password.value);
       if (!error.value) {
         console.log("Logged In !", error.value);
+
         router.push({ name: "home" });
       } else {
         // disable.value = false;

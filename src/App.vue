@@ -49,6 +49,14 @@
   border: 1px var(--black);
   transition: all 0.15s;
 }
+.primary-button2 {
+  font-size: 1rem;
+  padding: 10px 35px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 1px var(--black);
+  transition: all 0.15s;
+}
 p {
   margin: 1.5vw 0px;
 }
@@ -77,6 +85,11 @@ input {
   font-size: 1rem;
 }
 .primary-button:hover {
+  border: 1px rgba(0, 0, 0, 0.267);
+  background-color: var(--positive);
+  transform: scale(1.1);
+}
+.primary-button2:hover {
   border: 1px rgba(0, 0, 0, 0.267);
   background-color: var(--positive);
   transform: scale(1.1);
@@ -131,6 +144,18 @@ input {
     width: 72px;
     height: 72px;
     opacity: 0;
+  }
+}
+.effect {
+  opacity: 1;
+  animation: open 1.5s linear;
+}
+@keyframes open {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
 </style>

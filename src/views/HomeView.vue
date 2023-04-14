@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="effect">
     <NavBar />
     <MapComp />
   </div>
@@ -13,4 +13,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.position {
+  position: fixed;
+}
+</style>
